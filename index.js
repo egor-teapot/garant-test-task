@@ -43,7 +43,7 @@ const sortObject = (data) => {
         // }
 
         function rec(targetObject, targetArray) {
-            
+
 
             return rec()
         }
@@ -55,10 +55,82 @@ const sortObject = (data) => {
     return orderedObject
 }
 
+function objectOrderer(data) {
+    let out = []
+    
+    function findNextObject(arrayOfObjects, targetParameter, targetValue) {
+        /*
+            for (I для каждого обьекта в массиве)
+                if(в списке есть обьект с искомым значением) 
+                    return позицию этого обьекта
+                else
+                    return null
+        */
+
+        // try {
+            for(let I = 0; I < arrayOfObjects.length; I++) {
+                // console.log(`INSPECTING OBJECT >> ${arrayOfObjects[I]} \n`)
+                if(arrayOfObjects[I][targetParameter] === targetValue) return I
+                else return null
+            }
+        // }
+        // catch(err) {
+            // console.error(`FindNextObjec fun ERR: \n ${err} \n`)
+            // return undefined
+        // }
+
+     
+    }
+
+    function hierarchySort(iterator = 0, targetObjectAdress, object, array) {
+        // console.log(JSON.stringify(out))
+        // console.log(`ITERATION >> ${iterator} \n SUBSTR >> ${array[iterator]} \n`)        
+        
+
+        // checking existing object
+        let nextObject = object
+        if(findNextObject(object, "value", array[iterator]) == null) {
+            object.push({value: array[iterator], dependent: []})
+            recursionDirection = object.length - 1
+            nextObject = object[recursionDirection].dependent
+
+        }
+        else {
+            recursionDirection = findNextObject(object, "value", array[iterator])
+            nextObject = object[recursionDirection].dependent
+
+        }
+
+        
+        
+        // const nextObject = object[0].dependent // заглушка
+        // проблема здесь         ^ смотри задачу в планшете
+
+        
+        if(iterator >= array.length - 1) return
+        hierarchySort(iterator += 1, targetObjectAdress, nextObject, array)
+    } // hierarchySort
+
+
+    // прохожусь по каждому элементу массива
+    for(let I = 0; I < data.length; I++) {
+        const arrayOfSubstrings = data[I].value.split("\\")
+        
+        hierarchySort(0, I, out, arrayOfSubstrings)
+        // break // заглушка
+    } // loop for I
+
+    return out
+} // fun objectOrderer
+
+
 fs.readFile('./map.txt', {encoding: "utf-8"}, (err, data)=> {
     const dataJSON = JSON.parse(data)
 
 
-    const out = sortObject(dataJSON)
-    console.log(out)
+    const out = objectOrderer(dataJSON)
+    fs.writeFile("./OUTPUT.txt", JSON.stringify(out), (err) => {
+        console.log(err)
+    })
+    // console.log(out)
 })
