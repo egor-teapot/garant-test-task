@@ -50,36 +50,41 @@ function objectOrderer(data) {
     
     function findNextObject(arrayOfObjects, targetParameter, targetValue) {
 
-            for(let I = 0; I < arrayOfObjects.length; I++) {
-                console.log(`INSPECTING OBJECT >> ${JSON.stringify(arrayOfObjects[I].value)} \n`)
-                if(arrayOfObjects[I][targetParameter] == targetValue) return I
-                else return null
-            }
-
-     
+      for(let I = 0; I < arrayOfObjects.length; I++) {
+        console.log(`SEACHING ${targetValue} COMPARE TO ${arrayOfObjects[I][targetParameter]}`)
+        // console.log(`INSPEC OBJ >> ${JSON.stringify(arrayOfObjects[I].value)} <- | -> ${targetValue} \n`)
+        if(arrayOfObjects[I][targetParameter] == targetValue) {
+          console.log(">> FOUND \n")
+          return I
+        }
+      }
+      console.log(">> NOT FOUND")
+      return null
     }
 
+
     function hierarchySort(iterator = 0, targetObjectAdress, object, array) {
-        console.log(`ITERATION >> ${iterator} \n SUBSTR >> ${array[iterator]} \n`)        
+        console.log(`ITERATION >> ${iterator} "${array[iterator]}" \n`)        
+        if(iterator >= array.length) return
 
         // Ошибка где то здесь
-        if(findNextObject(object, "value", array[iterator]) == null) {
+        const nextObjectAdress = findNextObject(object, "value", array[iterator])
+        
+        if(nextObjectAdress == null) {
             console.log("PUSH \n")
             object.push({value: array[iterator], dependent: []})
-            recursionDirection = object.length - 1
-            nextObject = object[recursionDirection].dependent
+            const nextObject = object[object.length - 1].dependent
+
+            hierarchySort(iterator += 1, nextObjectAdress, nextObject, array)
 
         } else {
             console.log("FOLLOW \n")
-            recursionDirection = findNextObject(object, "value", array[iterator])
-            nextObject = object[recursionDirection].dependent
+            const nextObject = object[nextObjectAdress].dependent
+            
+            hierarchySort(iterator += 1, nextObjectAdress, nextObject, array)
+
         }
         // Ошибка где то здесь
-
-
-        
-        if(iterator >= array.length - 1) return
-        hierarchySort(iterator += 1, targetObjectAdress, nextObject, array)
 
     } // hierarchySort
 
