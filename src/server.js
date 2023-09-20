@@ -3,6 +3,10 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
+// app.use('/scripts', express.static(path.join(__dirname, '/scripts')))
+app.use(express.static(path.resolve('./public')))
+
+
 app.set('view cache', false); // Clear your application's cache
 app.set('views', path.join(__dirname, 'views')); // Set the correct path to your views directory
 app.set('view engine', 'ejs'); // Set your view engine (in this case, EJS)

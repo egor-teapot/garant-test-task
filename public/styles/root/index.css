@@ -1,0 +1,23 @@
+ul {
+    padding: 1rem 0 0 1rem;
+    margin-bottom: 1rem;
+    border-left: 2px solid black;
+    list-style: none;
+}
+
+.result {
+    overflow-y: scroll;
+    margin-top: auto;
+
+    /* background-color: red !important; */
+}
+
+.side {
+    position: sticky;
+    top: 0;
+}
+
+.content {
+    padding-top: 80px;
+    flex-direction: row;
+}
