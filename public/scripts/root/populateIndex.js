@@ -18,33 +18,32 @@ let listNode = document.createElement('ul')
 
 function populateIndex(listNode, data) {
 
-    function arrayUndefinedProtector(data) {
-        if(data == [] || data == undefined || data == null) {
-            console.log("checked dependent, returned 0")
-            return 0
-        }
-        console.log("checked dependent, returned length")
-        return data.length
-
-    }
-
-
     function recursion(listNode, data) {
-        
-        
-        console.log("recursion loop " + data.value)
+      console.log("recursion loop " + data.value)
+      console.log(data.dependent)
+      
+      let details = document.createElement('details')
+      let summary = document.createElement('summary')
+      
+      let listElement = document.createElement('li')
+      let subList = document.createElement('ul')
+      
+      summary.innerHTML = data.value
+      details.appendChild(summary)
+      listElement.appendChild(details)
+      details.appendChild(subList)       
 
-        let listElement = document.createElement('li')
+      if(data.dependent.length == 0) {
         listElement.innerHTML = data.value
+        listNode.appendChild(listElement)       
+        return
+      }
+      
+      listNode.appendChild(listElement)
 
-        let subList = document.createElement('ul')
-
-        listNode.appendChild(listElement)            
-        listNode.appendChild(subList)
-        
-        for(let I = 0; I < data.dependent.length; I++) {
-            recursion(subList, data.dependent[I])
-        }
+      for(let I = 0; I < data.dependent.length; I++) {
+        recursion(subList, data.dependent[I])
+      }
     }
     
     for(let I = 0; I < data.length; I++) {
