@@ -33,20 +33,28 @@ function populateIndex(listNode, data) {
       console.log("recursion loop " + data.value)
       console.log(data.dependent)
       
+      let details = document.createElement('details')
+      let summary = document.createElement('summary')
       
       let listElement = document.createElement('li')
-      listElement.innerHTML = data.value
-      
       let subList = document.createElement('ul')
       
-      listNode.appendChild(listElement)            
-      if(data.dependent.length == 0) return // работает        
+      summary.innerHTML = data.value
+      details.appendChild(summary)
+      listElement.appendChild(details)
+      details.appendChild(subList)       
+
+      if(data.dependent.length == 0) {
+        listElement.innerHTML = data.value
+        listNode.appendChild(listElement)       
+        return
+      }
       
-      listNode.appendChild(subList)
-      
-        for(let I = 0; I < data.dependent.length; I++) {
-          recursion(subList, data.dependent[I])
-        }
+      listNode.appendChild(listElement)
+
+      for(let I = 0; I < data.dependent.length; I++) {
+        recursion(subList, data.dependent[I])
+      }
     }
     
     for(let I = 0; I < data.length; I++) {
