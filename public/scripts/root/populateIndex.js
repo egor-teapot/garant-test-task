@@ -30,20 +30,22 @@ function populateIndex(listNode, data) {
 
 
     function recursion(listNode, data) {
-        
-        
-        console.log("recursion loop " + data.value)
-
-        let listElement = document.createElement('li')
-        listElement.innerHTML = data.value
-
-        let subList = document.createElement('ul')
-
-        listNode.appendChild(listElement)            
-        listNode.appendChild(subList)
-        
+      console.log("recursion loop " + data.value)
+      console.log(data.dependent)
+      
+      
+      let listElement = document.createElement('li')
+      listElement.innerHTML = data.value
+      
+      let subList = document.createElement('ul')
+      
+      listNode.appendChild(listElement)            
+      if(data.dependent.length == 0) return // работает        
+      
+      listNode.appendChild(subList)
+      
         for(let I = 0; I < data.dependent.length; I++) {
-            recursion(subList, data.dependent[I])
+          recursion(subList, data.dependent[I])
         }
     }
     
