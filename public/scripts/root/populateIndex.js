@@ -18,17 +18,6 @@ let listNode = document.createElement('ul')
 
 function populateIndex(listNode, data) {
 
-    function arrayUndefinedProtector(data) {
-        if(data == [] || data == undefined || data == null) {
-            console.log("checked dependent, returned 0")
-            return 0
-        }
-        console.log("checked dependent, returned length")
-        return data.length
-
-    }
-
-
     function recursion(listNode, data) {
       console.log("recursion loop " + data.value)
       console.log(data.dependent)
